@@ -4,8 +4,6 @@ import java.io.File;
 
 
 
-
-
 import java.util.Collection;
 import java.util.Scanner;
 
@@ -23,6 +21,7 @@ public class Client {
 	static User CurrentlyLogged; 
 	static User AdminLogged; 
 	static boolean check = false; 
+	static boolean errorfix = false;
 	
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws Exception {
@@ -49,9 +48,13 @@ public class Client {
 	    
 	    
 	    auth();
-	    
+	    if(errorfix == true)
+	    {
 	    loggedIn();
-	  
+	    }
+	    else{
+	    	System.out.println("Exited Successfully");
+	    }
 
 	   
 	}
@@ -66,10 +69,12 @@ public class Client {
 	   
 	   
 
-	@SuppressWarnings("resource")
-	public static void loginMenu()
+	@SuppressWarnings({ "resource", "unused" })
+	public static void loginMenu() throws Exception
 		{
-		   Scanner in = new Scanner(System.in);
+		    check = false;
+		    Scanner in = new Scanner(System.in);
+		    Scanner str = new Scanner(System.in);
 			String username;
 			String password;
 			System.out.println("Authentication process");
@@ -77,24 +82,30 @@ public class Client {
 			username = in.nextLine();
 			System.out.println("Enter your password: ");
 			password = in.nextLine();
+			while(!recommendation.authenticate(username, password))
+			{
+				System.out.println("------Log in failed------");
+				System.out.println("Make sure that you input correct details");
+				System.out.println("Enter your username: ");
+				username = in.nextLine();
+				System.out.println("Enter your password: ");
+				password = in.nextLine();
+			}
 
-			if (recommendation.authenticate(username, password))
-			{
 				System.out.println("Logged in successfully!");
-				CurrentlyLogged = recommendation.getUserByUsername(username);
 				check = true;
+			
+
+				CurrentlyLogged = recommendation.getUserByUsername(username);
 			}
-			else
-			{
-				System.out.println("Log in failed");
-			}
-	}
+			
+	
 	   
 	   
 	   @SuppressWarnings("resource")
 	public static void auth() throws Exception
 	   {
-		   
+
 		   Scanner in = new Scanner(System.in);
 		   System.out.println("----------Welcome to RecommendMe-------");
 		   System.out.println("Press ENTER to see a list of options");
@@ -104,15 +115,21 @@ public class Client {
 		   System.out.println("3. Exit");
 		   System.out.println("Enter in your choice:");
 		   int ans = in.nextInt();
-		   
+		   while(ans > 3 || ans < 1)
+		   {
+			   System.out.println("Incorrect input, please enter another number [1-3]:");
+			   ans = in.nextInt();
+		   }
 		  if(ans == 1)
 		  {
 			  loginMenu();
+			  errorfix = true;
 		  }
 		  else if(ans == 2)
 		  {
 			  
 			  addUser();
+			  errorfix = true;
 			  
 		  }
 		   
@@ -133,31 +150,25 @@ public class Client {
 			String lastName = in.nextLine();
 
 			//Loop if non-numerical or within range
-			boolean range = false;
 			int age = 0;
-			while (!range) 
-			{
-				try 
-				{
+				
 					System.out.println("Enter in Your age:");
 					age = ages.nextInt();
-					if (age >=0 && age <=99)
+					while(age > 99 || age < 1)
 					{
-						range = true;
+						System.out.println("Enter in a proper age between 1-99:");
+						age = ages.nextInt();
 					}
-					else
-					{
-						System.out.println("Age is incorrect!");
-					}
-				} 
-				catch (Exception e) 
-				{
-					System.out.println("Positive numbers between 1-99 only!");
-				}
-			}
+				
+			
 
 			System.out.println("What's Your gender? (M/F/N)");
 			String gender = in.nextLine();
+			while(!gender.equals("M")&&!gender.equals("F")&&!gender.equals("N"))
+			{
+				System.out.println("Invalid gender, Please enter M/F/N:");
+				gender = in.nextLine();
+			}
 
 
 
