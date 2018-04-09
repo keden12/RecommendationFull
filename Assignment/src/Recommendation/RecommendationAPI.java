@@ -51,6 +51,7 @@ public class RecommendationAPI {
 	  
   }
   
+//define Serializer
   @SuppressWarnings("static-access")
 public RecommendationAPI(Serializer serializer)
   {
@@ -58,7 +59,7 @@ public RecommendationAPI(Serializer serializer)
   }
   
   
-  
+  //Was testing out an admin class
 //  public static Admin addAdmin(String fname, String lname, int age,String gender,String username,String password)
  // {
 //	  Admin admin = new Admin(fname,lname,age,gender,username,password);
@@ -70,7 +71,7 @@ public RecommendationAPI(Serializer serializer)
   
   
   
-  
+  //add a new movie
   public static Movie addMovie(String title,String releasedate,String url)
   {
 	  
@@ -81,7 +82,7 @@ public RecommendationAPI(Serializer serializer)
 	 return movie;
 	
   }
-  
+  //add a new rating
   public static Rating addRating(Long userid,Long itemid,int rating,int timestamp)
   {
 	    Rating ratingsure = null;
@@ -97,7 +98,7 @@ public RecommendationAPI(Serializer serializer)
   
   
 
-
+//add a new user
 public static User addUser(String firstName, String lastName, int age, String gender,String occupation,String zip,String username,String password) 
   {
     User user = new User (firstName, lastName, age, gender,occupation,zip,username,password);
@@ -106,65 +107,74 @@ public static User addUser(String firstName, String lastName, int age, String ge
     
     return user;
   }
-  
+  //get user by id
   public static User getUser(Long userid)
   {
 	  return users.get(userid);
   }
   
-
+//remove user
 public void removeUser(Long id) 
   {
 	  User user = getUser(id);
 	  users.remove(user.id);  
 	  
   }
+	
+//get user by username
 public User getUserByUsername(String username)
 	{
 		return Login.get(username);
 }
 
+//testing admin
 //public Admin getAdminByUsername(String username)
 //{
 //	return AdminLogin.get(username);
 //}
 
+  //get movie by id
   public static Movie getMovie(Long movieid) 
   {
     return movies.get(movieid);
   }
   
+   //get user ratings
   public static Rating getUserRatings(Long userid) 
   {
     return ratings.get(userid);
   }
 
+  //get movies by title
   public static Movie getMoviesByTitle(String title)
   {
 	  
 	  return movietitle.get(title);
   }
+  //get all users
   public Collection<User> getUsers()
   {
     return users.values();
   }
+  //get all movies
   public Collection<Movie> getMovies()
   {
     return movies.values();
   }
-  
+  //get all ratings
   public Collection<Rating> getRatings()
   {
     return ratings.values();
   }
   
-  
+  //remove a movie by id
   public void RemoveMovie(Long id)
   {
 	  Movie movie = getMovie(id);
 	  movies.remove(movie.movieid);  
   }
   
+   //authentication for signing in
 	public boolean authenticate(String username, String password)
 	{
 
@@ -198,6 +208,9 @@ public User getUserByUsername(String username)
 //		return AdminLogin.values();
 		
 //	}
+	
+	
+    //get top 10 user recommendations (Unfortunately not working fully)
 	public List<Movie> getUserRecommendations(long userId)
 	{
 
@@ -270,19 +283,20 @@ public User getUserByUsername(String username)
 			return null;
 		}
 }
+	//search for a movie (or a similar movie)
 	public List<Movie> searchMovies(String prefix)
 	{
 		List<Movie> searchMovies = new ArrayList<>(movies.values());
 		return filter(searchMovies, prefix);
     }
-	
+	//filter for searching movies
 	private static List<Movie> filter(final Collection<Movie> source, final String prefix) 
 	{
 
 		return source.stream().filter(item -> item.title.toLowerCase().startsWith(prefix.toLowerCase())).collect(Collectors.toList());
     }
 	
-  
+  //get movies by date
   public static Movie getMoviesByDate(String date)
   {
 	  
@@ -292,7 +306,7 @@ public User getUserByUsername(String username)
  
   
   
-
+//load data
 @SuppressWarnings("unchecked")
 public void load() throws Exception
 {
@@ -306,7 +320,7 @@ public void load() throws Exception
 }
 
 
-
+//store data
 static void store() throws Exception
 {
 //	serializer.push(AdminLogin);
@@ -318,7 +332,7 @@ static void store() throws Exception
 	serializer.write();
 
 }
-
+//load if data doesn't exits
 public void InitialLoad() throws Exception
 {
 CSVLoader loader = new CSVLoader();
