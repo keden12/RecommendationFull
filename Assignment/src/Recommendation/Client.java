@@ -14,20 +14,25 @@ import values.User;
 import asg.cliche.*;
 
 public class Client {
-
+    //creating new file 
     static File  datastore = new File("datastore.xml");
     static Serializer serializer = new XMLSerializer(datastore);
     static RecommendationAPI recommendation = new RecommendationAPI(serializer);
+	
+	//currently logged in user
 	static User CurrentlyLogged; 
+	//currently logged in admin
 	static User AdminLogged; 
 	static boolean check = false; 
 	static boolean errorfix = false;
+	
 	
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws Exception {
 
 	    
-
+            //executes this code before anything else
+	    //loads the data or else creates the file with data
 	    if (datastore.isFile())
 	    {
 	      recommendation.load();
@@ -46,7 +51,7 @@ public class Client {
 	    RecommendationAPI.store(); 
 	    
 	    
-	    
+	    //authenticates
 	    auth();
 	    if(errorfix == true)
 	    {
@@ -68,7 +73,7 @@ public class Client {
 	    }
 	   
 	   
-
+       //login menu
 	@SuppressWarnings({ "resource", "unused" })
 	public static void loginMenu() throws Exception
 		{
@@ -101,7 +106,7 @@ public class Client {
 			
 	
 	   
-	   
+	   //authentication process
 	   @SuppressWarnings("resource")
 	public static void auth() throws Exception
 	   {
@@ -134,7 +139,7 @@ public class Client {
 		  }
 		   
 	   }
-	   
+	   //Sign Up process
 	   @SuppressWarnings({ "static-access", "resource" })
 	public static void addUser() throws Exception
 		{
@@ -205,7 +210,7 @@ public class Client {
 			System.out.println("Your details have been saved!");
 	}
 	   
-	   
+	   //When logged in
 	   @SuppressWarnings({ "resource" })
 	public static void loggedIn() throws Exception
 	   {
@@ -330,7 +335,7 @@ public class Client {
 		   }
 		   
 		   
-	   
+	   //remove a user
 	   @SuppressWarnings("resource")
 	public static void RemoveUser()
 	   {
@@ -343,7 +348,7 @@ public class Client {
 	   }
 	   
 	   
-
+        //delete account
 	@SuppressWarnings("static-access")
 	public static void deleteAccount() throws Exception
 	   {
@@ -355,7 +360,8 @@ public class Client {
 		   recommendation.store();
 
 	   }
-	     
+	   
+        //promote as admin 
 	   @SuppressWarnings({ "resource", "static-access" })
 	public static void Promote() throws Exception
 	   {
@@ -368,6 +374,7 @@ public class Client {
  
 	   }
 	   
+        //personal recommendations
 		public static void personalRec()
 		{
 			if (CurrentlyLogged.ratingsUser.size() > 0)
@@ -381,6 +388,7 @@ public class Client {
 
 	}
 	   
+        //get user by username
 		@SuppressWarnings("resource")
 		public static void getUsername()
 		{
@@ -390,6 +398,8 @@ public class Client {
 			System.out.println(recommendation.getUserByUsername(username));
 		}
 	   
+	
+        //revoke admin
 	   @SuppressWarnings({ "resource", "static-access" })
 	public static void Revoke() throws Exception
 	   {
@@ -402,6 +412,7 @@ public class Client {
 		   recommendation.store();
 	   }
 	   
+        //delete movie
 		@SuppressWarnings({ "resource", "static-access"})
 		public static void removeMovie() throws Exception
 		   {
@@ -414,6 +425,7 @@ public class Client {
 			   recommendation.store();
 		   }
 		
+        //add movie process
 		@SuppressWarnings({ "static-access", "unused", "resource" })
 		public static void addMovie() throws Exception
 		{
@@ -474,7 +486,7 @@ public class Client {
 
 		   
 	   
-	   
+	  //add rating process
 	   @SuppressWarnings({ "static-access", "resource" })
 	public static void addARating() throws Exception
 		{
@@ -543,7 +555,7 @@ public class Client {
 	   
 	   
 	   
-	   
+	   //search for movies
 		@SuppressWarnings("resource")
 		public static void searchMovies()
 		{
